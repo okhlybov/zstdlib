@@ -27,7 +27,7 @@ $CPPFLAGS += " -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
 load "#{zlib}/extconf.rb"
 
 mk = File.read('Makefile').
-  gsub(/^\s*(LIBS\s*=.*)/, '\1 -lzstd -lzlibwrapper').
+  gsub(/^\s*LIBS\s*=(.*)/, 'LIBS = -lzlibwrapper -lzstd \1').
   gsub(/^\s*(TARGET(_NAME)?\s*=).*/, '\1 zstdlib').
   gsub(/^(\s*clean\s*:.*)/, '\1 clean-mk')
 
