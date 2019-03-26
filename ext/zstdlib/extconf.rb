@@ -8,7 +8,7 @@ include RbConfig
 include FileUtils
 
 ZSTD_VERSION = '1.3.8'
-RB_VERSION = CONFIG['RUBY_API_VERSION']
+RB_VERSION = Gem.ruby_api_version
 
 zlib = "zlib-#{RB_VERSION}"
 zstd = "zstd-#{ZSTD_VERSION}/lib"
