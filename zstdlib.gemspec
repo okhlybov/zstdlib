@@ -13,8 +13,9 @@ Gem::Specification.new do |spec|
       %w(zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
   ).flatten
   spec.extensions    = 'ext/zstdlib/extconf.rb'
-  spec.platform = Gem::Platform::RUBY
+  spec.platform      = Gem::Platform::RUBY
   spec.required_ruby_version = '>= 2.2.0'
-  spec.add_development_dependency 'bundler', '~> 2'
-  spec.add_development_dependency 'rake', '~> 12'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rake-compiler'
 end
