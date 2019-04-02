@@ -9,9 +9,11 @@ Gem::Specification.new do |spec|
   spec.license       = 'BSD-3-Clause'
   spec.files         = (
       [__FILE__] +
-      %w(*.md test/*.rb).collect {|mask| Dir[mask]} +
-      %w(zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|mask| Dir['ext/zstdlib/' << mask]}
+      %w(*.md test/*.rb).collect {|glob| Dir[glob]} +
+      %w(zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
   ).flatten
   spec.extensions    = 'ext/zstdlib/extconf.rb'
   spec.required_ruby_version = '>= 2.2.0'
+  spec.add_development_dependency 'bundler', '~> 1.5'
+  spec.add_development_dependency 'rake'
 end
