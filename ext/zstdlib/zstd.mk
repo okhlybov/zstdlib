@@ -1,4 +1,8 @@
-OBJS := $(patsubst %.c,%.o,$(wildcard $(SRCDIR)/common/*.c) $(wildcard $(SRCDIR)/compress/*.c) $(wildcard $(SRCDIR)/decompress/*.c))
+SUBDIRS := $(SRCDIR)/common $(SRCDIR)/compress $(SRCDIR)/decompress
+SRCS := $(foreach dir,$(SUBDIRS),$(wildcard $(dir)/*.c))
+OBJS := $(foreach obj,$(patsubst %.c,%.o,$(SRCS)),$(notdir $(obj)))
+
+VPATH := $(SUBDIRS)
 
 CPPFLAGS += -I$(SRCDIR) -I$(SRCDIR)/common
 

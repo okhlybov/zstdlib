@@ -18,13 +18,15 @@ File.open('zstdlib.c', 'w') do |file|
   file << File.read("#{zlib}/zlib.c").
     gsub(/Init_zlib/, 'Init_zstdlib').
     gsub(/rb_define_module.*/, 'rb_define_module("Zstdlib");').
-    gsub(/<zlib.h>/, '<zstd_zlibwrapper.h>')
+    gsub(%~<zlib.h>~, %~<zstd_zlibwrapper.h>~)
 end
+
+$srcs = ['zstdlib.c']
 
 $CFLAGS += ' -O3'
 $CPPFLAGS += " -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
 
-eval File.read("#{zlib}/extconf.rb").gsub(/'zlib'/, %~'zstdlib'~)
+eval File.read("#{zlib}/extconf.rb").gsub(%~'zlib'~, %~'zstdlib'~)
 
 mk = File.read('Makefile').
   gsub(/^\s*LIBS\s*=(.*)/, 'LIBS = -lzlibwrapper -lzstd \1').
