@@ -6,16 +6,16 @@ require 'fileutils'
 include FileUtils
 
 ZSTD_VERSION = '1.3.8'
-RB_VERSION = Gem.ruby_api_version
+RB_VERSION = Gem.ruby_api_version.slice(/^\d+\.\d+/)
 
 root = File.dirname(__FILE__)
 
-zlib = "#{root}/zlib-#{RB_VERSION}"
+zmod = "#{root}/ruby/zlib-#{RB_VERSION}"
 zstd = "#{root}/zstd-#{ZSTD_VERSION}/lib"
 zlibwrapper = "#{root}/zstd-#{ZSTD_VERSION}/zlibWrapper"
 
 File.open('zstdlib.c', 'w') do |file|
-  file << File.read("#{zlib}/zlib.c").
+  file << File.read("#{zmod}/zlib.c").
     gsub(/Init_zlib/, 'Init_zstdlib').
     gsub(/rb_define_module.*/, 'rb_define_module("Zstdlib");').
     gsub(%~<zlib.h>~, %~<zstd_zlibwrapper.h>~)
@@ -26,7 +26,7 @@ $srcs = ['zstdlib.c']
 $CFLAGS += ' -O3'
 $CPPFLAGS += " -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
 
-eval File.read("#{zlib}/extconf.rb").gsub(%~'zlib'~, %~'zstdlib'~)
+eval File.read("#{zmod}/extconf.rb").gsub(%~'zlib'~, %~'zstdlib'~)
 
 mk = File.read('Makefile').
   gsub(/^\s*LIBS\s*=(.*)/, 'LIBS = -lzlibwrapper -lzstd \1').
