@@ -11,10 +11,10 @@ RB_VERSION = Gem.ruby_api_version.slice(/^\d+\.\d+/)
 
 root = File.dirname(__FILE__)
 
-zmod = "#{root}/ruby/zlib-#{RB_VERSION}"
-zlib = "#{root}/zlib-#{ZLIB_VERSION}"
-zstd = "#{root}/zstd-#{ZSTD_VERSION}/lib"
-zlibwrapper = "#{root}/zstd-#{ZSTD_VERSION}/zlibWrapper"
+zmod = File.expand_path "ruby/zlib-#{RB_VERSION}", root
+zlib = File.expand_path "zlib-#{ZLIB_VERSION}", root
+zstd = File.expand_path "zstd-#{ZSTD_VERSION}/lib", root
+zlibwrapper = File.expand_path "zstd-#{ZSTD_VERSION}/zlibWrapper", root
 
 File.open('zstdlib.c', 'w') do |file|
   file << File.read("#{zmod}/zlib.c").
@@ -27,27 +27,23 @@ $srcs = ['zstdlib.c']
 
 $CFLAGS += ' -O3'
 $CPPFLAGS += " -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
-$LIBS += ' -lzlibwrapper -lzstd -lz'
+$LIBS += ' -L. -lzlibwrapper -lzstd -lz'
 
 create_makefile('zstdlib')
 
-mk = File.read('Makefile')
-
-File.open('Makefile', 'wt') do |file|
-  file << mk
-  file <<
-%~
+File.open('Makefile', 'a') do |file|
+  file << %~
 export CFLAGS CPPFLAGS
+
 $(DLLIB) : libzstd.a libzlibwrapper.a libz.a
+
 libzstd.a :
-\tSRCDIR=#{zstd} $(MAKE) -f #{root}/zstd.mk
+\texport SRCDIR=#{zstd} && mkdir -p zstd && $(MAKE) -C zstd -f #{File.expand_path root}/zstd.mk
+
 libz.a :
-\tSRCDIR=#{zlib} $(MAKE) -f #{root}/zlib.mk
+\texport SRCDIR=#{zlib} && mkdir -p zlib && $(MAKE) -C zlib -f #{File.expand_path root}/zlib.mk
+
 libzlibwrapper.a :
-\tSRCDIR=#{zlibwrapper} $(MAKE) -f #{root}/zlibwrapper.mk
-clean-mk:
-\tSRCDIR=#{zlib} $(MAKE) -f #{root}/zlib.mk clean
-\tSRCDIR=#{zstd} $(MAKE) -f #{root}/zstd.mk clean
-\tSRCDIR=#{zlibwrapper} $(MAKE) -f #{root}/zlibwrapper.mk clean
+\texport SRCDIR=#{zlibwrapper} && mkdir -p zlibwrapper && $(MAKE) -C zlibwrapper -f #{File.expand_path root}/zlibwrapper.mk
 ~
 end

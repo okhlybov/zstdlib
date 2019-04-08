@@ -17,7 +17,7 @@ data = Zstdlib.deflate('Hello, Zstd!')
 ### Incremental data compression
 ````ruby
 require 'zstdlib'
-zstd = Zstdlib::Deflate.newd
+zstd = Zstdlib::Deflate.new
 data = ''
 ````
 
