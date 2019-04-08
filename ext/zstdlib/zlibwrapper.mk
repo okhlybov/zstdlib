@@ -1,12 +1,11 @@
-SUBDIRS := $(SRCDIR) $(SRCDIR)/../../zlibwrapper
-SRCS := $(foreach dir,$(SUBDIRS),$(wildcard $(dir)/*.c))
-OBJS := $(foreach obj,$(patsubst %.c,%.o,$(SRCS)),$(notdir $(obj)))
+VPATH := $(SRCDIR) $(SRCDIR)/../../zlibwrapper
 
-VPATH := $(SUBDIRS)
+SRCS := $(foreach dir,$(VPATH),$(wildcard $(dir)/*.c))
+OBJS := $(patsubst %.c,%.o,$(foreach file,$(SRCS),$(notdir $(file))))
 
 CPPFLAGS += -I$(SRCDIR)/../lib -I$(SRCDIR)/../lib/common
 
-LIB = libzlibwrapper.a
+LIB = ../libzlibwrapper.a
 
 $(LIB) : $(OBJS)
 	$(AR) cr $@ $^

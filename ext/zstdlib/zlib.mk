@@ -1,8 +1,11 @@
-OBJS := $(patsubst %.c,%.o,$(wildcard $(SRCDIR)/*.c))
+VPATH := $(SRCDIR)
+
+SRCS := $(foreach dir,$(VPATH),$(wildcard $(dir)/*.c))
+OBJS := $(patsubst %.c,%.o,$(foreach file,$(SRCS),$(notdir $(file))))
 
 CPPFLAGS += -I$(SRCDIR)
 
-LIB = libzlib.a
+LIB = ../libz.a
 
 $(LIB) : $(OBJS)
 	$(AR) cr $@ $^
