@@ -25,17 +25,18 @@ end
 
 $srcs = ['zstdlib.c']
 
-$CFLAGS += ' -O3'
-$CPPFLAGS += " -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
-$LIBS += ' -L. -lzlibwrapper -lzstd -lz'
+$CFLAGS += ' -fomit-frame-pointer -ffast-math -O3'
+$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
+$LOCAL_LIBS += ' libzlibwrapper.a libz.a libzstd.a'
 
 create_makefile('zstdlib')
 
 File.open('Makefile', 'a') do |file|
-  file << %~
-export CFLAGS CPPFLAGS
+file << %~
 
-$(DLLIB) : libzstd.a libzlibwrapper.a libz.a
+export CC AR CFLAGS CPPFLAGS
+
+$(DLLIB) : libz.a libzstd.a libzlibwrapper.a
 
 libzstd.a :
 \texport SRCDIR=#{zstd} && mkdir -p zstd && $(MAKE) -C zstd -f #{File.expand_path root}/zstd.mk
@@ -45,5 +46,6 @@ libz.a :
 
 libzlibwrapper.a :
 \texport SRCDIR=#{zlibwrapper} && mkdir -p zlibwrapper && $(MAKE) -C zlibwrapper -f #{File.expand_path root}/zlibwrapper.mk
+
 ~
 end

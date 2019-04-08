@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'BSD-3-Clause'
   spec.files         = (
       [__FILE__, 'Rakefile', 'Gemfile'] +
-      %w(*.md test/*.rb).collect {|glob| Dir[glob]} +
+      %w(*.md lib/*.rb test/*.rb).collect {|glob| Dir[glob]} +
       %w(zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
   ).flatten
   spec.extensions    = 'ext/zstdlib/extconf.rb'
