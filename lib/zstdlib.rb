@@ -1,6 +1,6 @@
 begin
   RUBY_VERSION =~ /(\d+\.\d+)/
-  require "#{$1}/zstdlib"
+  require "#{$1}/zstdlib.so"
 rescue LoadError
-  require 'zstdlib'
+  require 'zstdlib.so'
 end
