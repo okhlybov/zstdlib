@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://bitbucket.org/fougas/zstdlib'
   spec.license       = 'BSD-3-Clause'
   spec.files         = (
-      [__FILE__, 'Rakefile', 'Gemfile'] +
+      ['Rakefile', 'Gemfile'] +
       %w(*.md lib/*.rb test/*.rb).collect {|glob| Dir[glob]} +
       %w(ruby/**/*.c zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
   ).flatten
