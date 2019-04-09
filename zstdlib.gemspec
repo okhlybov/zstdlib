@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.files         = (
       [__FILE__, 'Rakefile', 'Gemfile'] +
       %w(*.md lib/*.rb test/*.rb).collect {|glob| Dir[glob]} +
-      %w(zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
+      %w(ruby/**/*.c zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
   ).flatten
   spec.extensions    = 'ext/zstdlib/extconf.rb'
   spec.platform      = Gem::Platform::RUBY
@@ -18,5 +18,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rake-compiler'
-  spec.add_development_dependency 'rake-compiler-dock'
+  spec.add_development_dependency 'rake-compiler-dock', '~> 0.7.0'
 end
