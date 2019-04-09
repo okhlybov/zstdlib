@@ -20,13 +20,15 @@ File.open('zstdlib.c', 'w') do |file|
   file << File.read("#{zmod}/zlib.c").
     gsub(/Init_zlib/, 'Init_zstdlib').
     gsub(/rb_define_module.*/, 'rb_define_module("Zstdlib");').
-    gsub(%~<zlib.h>~, %~<zstd_zlibwrapper.h>~)
+    gsub(%~<zlib.h>~, %~<zstd_zlibwrapper.h>~).
+    gsub(%~Z_BEST_COMPRESSION~, %~ZSTD_maxCLevel()~)
 end
 
 $srcs = ['zstdlib.c']
 
 $CFLAGS += ' -fomit-frame-pointer -ffast-math -O3'
-$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
+$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -I#{zstd}/lib -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
+$LDFLAGS += ' -s'
 $LOCAL_LIBS += ' libzlibwrapper.a libz.a libzstd.a'
 
 create_makefile('zstdlib')

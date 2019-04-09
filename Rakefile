@@ -1,5 +1,5 @@
-require 'bundler/gem_tasks'
 require 'rake/testtask'
+require 'bundler/gem_tasks'
 require 'rake/extensiontask'
 
 
@@ -19,4 +19,11 @@ Rake::TestTask.new(:test) do |t|
   t.libs << 'test'
   t.libs << 'lib'
   t.test_files = FileList['test/*_test.rb']
+end
+
+
+task :fat do
+  require 'rake_compiler_dock'
+  sh 'bundle package'
+  RakeCompilerDock.sh 'bundle --local && rake cross native gem'
 end
