@@ -8,7 +8,7 @@ _zstdlib_ currently supports the [MRI Ruby](https://www.ruby-lang.org/) platform
 
 Unlike the other Zstd bindings available for Ruby, `Zstdlib` utilizes Zstd's native `Zlib` compatibility layer. 
 
-This specifically means that `Zstdlib` module is (mostly) API-compatible with standard Ruby `Zlib` module and thus _zstdlib_ can be used as a drop-in replacement for _zlib_: just replace `Zlib` with `Zstdlib` in the source code and you're in!
+This specifically means that `Zstdlib` module is and will be (mostly)  API-compatible with standard Ruby `Zlib` module and thus _zstdlib_ can be used as a drop-in replacement for _zlib_: just replace `Zlib` with `Zstdlib` throughout the source code and you're in!
 
 Streams produced by `Zstdlib::Deflate` can be decompressed with standard _zstd_ utility and hence can be written to _.zst_ or _.zstd_ files.
 
@@ -46,7 +46,9 @@ and associated constants although this may be changed in future.
 In order to enable Zstd (de)compression capability in existing code, simply replace _zlib_ with _zstdlib_ in require statements and
 `Zlib` with `Zstdlib` module references throughout the code.
 
-The rest of the _zlib_-aware code should work unchanged. For further information refer to standard Ruby _zlib_ documentation.
+The rest of the _zlib_-aware code should work unchanged.
+
+For further information refer to documentation on _zlib_ .
                                             
 
 ### Notes on compression levels
@@ -66,6 +68,13 @@ The `BEST_SPEED` constant remains unchanged.
 For user-visible changes refer to [change log](CHANGES.md).
 
 
+## Availability
+
+_zstdlib_ home page on [bitbucket.org](https://bitbucket.org/fougas/zstdlib).
+
+Source code and Windows-specific multi-versioned binary gems can be obtained from [rubygems.org](https://rubygems.org/gems/zstdlib).
+
+## The end
 
 Cheers,
 

@@ -4,4 +4,6 @@ Initial release.
 
 Zstd version: `1.3.8`
 
-Supported Ruby versions: `2.2-2.6`
+Zlib version: `1.2.11`
+
+Supported MRI Ruby versions: `2.2-2.6`
