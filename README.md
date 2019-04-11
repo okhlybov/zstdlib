@@ -2,11 +2,11 @@
 
 _zstdlib_ is native Ruby extension for [Zstandard](https://facebook.github.io/zstd/) data compression library.
 
-_zstdlib_ currently supports the [MRI Ruby](https://www.ruby-lang.org/) platform.
+_zstdlib_ is currently available for the [MRI Ruby](https://www.ruby-lang.org/) platform.
 
 ## Why bother?
 
-Unlike the other Zstd bindings available for Ruby, `Zstdlib` utilizes Zstd's native `Zlib` compatibility layer. 
+Unlike the other Zstd bindings available for Ruby, *Zstdlib* utilizes Zstd's native *Zlib* compatibility layer. 
 
 This specifically means that `Zstdlib` module is and will be (mostly)  API-compatible with standard Ruby `Zlib` module and thus _zstdlib_ can be used as a drop-in replacement for _zlib_: just replace `Zlib` with `Zstdlib` throughout the source code and you're in!
 
@@ -28,6 +28,12 @@ data = String.new
 data << zstd.deflate('Hello')
 data << zstd.deflate('Zstd')
 data << zstd.finish
+````
+
+### Simple string decompression
+````ruby
+require 'zstdlib'
+data = Zstdlib.inflate(compressed_data)
 ````
 
 ## Technical notes
@@ -53,20 +59,15 @@ For further information refer to documentation on _zlib_ .
 
 ### Notes on compression levels
 
-Contrary to _zlib_ the `NO_COMPRESSION` constant in _zstdlib_ is an equivalent to `BEST_SPEED` as _zstd_ always compresses data.
-
 If unsure do not pass anything to constructor in order to use `DEFAULT_COMPRESSION` level which works for both _zlib_ ans _zstdlib_.
 
+Contrary to _zlib_ the `NO_COMPRESSION` constant in _zstdlib_ is an equivalent to `BEST_SPEED` as Zstd always compresses data.
+
 The `BEST_COMPRESSION` constant is adjusted to reflect Zstd-specific compression level range.
-Anyway this level is recommended against due to abysmal performance not to be expected from *fast* state-of-the art compression method. 
-Zstd documentation recommends using 19 as the level for optimal *best* compression.
+Anyways this level is recommended against due to abysmal performance not to be expected from the *fast* state-of-the-art compression algorithm. 
+The Zstd documentation (currently) recommends using *19* as the level for optimal *best* compression.
 
 The `BEST_SPEED` constant remains unchanged.
-
-## Release history
-
-For user-visible changes refer to [change log](CHANGES.md).
-
 
 ## Availability
 
@@ -74,7 +75,21 @@ _zstdlib_ home page on [bitbucket.org](https://bitbucket.org/fougas/zstdlib).
 
 Source code and Windows-specific multi-versioned binary gems can be obtained from [rubygems.org](https://rubygems.org/gems/zstdlib).
 
-## The end
+## Release history
+
+For user-visible changes refer to [change log](CHANGES.md).
+
+## Caveats
+
+Ruby documentation  extraction tools (such as RDoc) produce incorrect documentation for _zstdlib_
+which is technically valid but contains all identifies referring to _zlib_.
+This may change in future.
+
+Gzip support, although available in Zstd's Zlib compatibility layer, is currently disabled.
+
+Zstd's external compression dictionaries capability is not (yet) implemented.
+
+# The end
 
 Cheers,
 

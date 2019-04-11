@@ -18,5 +18,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rake-compiler'
-  spec.add_development_dependency 'rake-compiler-dock', '~> 0.7.0'
+  spec.add_development_dependency 'rake-compiler-dock', '~> 0.7.2'
 end
