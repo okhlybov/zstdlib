@@ -1,6 +1,6 @@
 # 0.1.1
 
-Pick up the most recent compatible source for _zstdlib_ Ruby extension module instead of Ruby version-specific one.
+Pick up the most recent compatible source for _zstdlib_ Ruby extension module instead of target Ruby version.
 
 Replaced (most) references to `Zlib` with `Zstdlib` within extractable documentation.
 
