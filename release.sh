@@ -6,8 +6,12 @@ hg id | grep + > /dev/null && { echo "Uncommitted changes found. Commit things f
 
 bundle exec rake clobber build fat
 
-gem push pkg/*.gem
+for gem in pkg/*.gem; do
+  gem push $gem
+done
 
 hg tag "zstdlib-`ruby -e 'puts Gem::Specification.load(%~zstdlib.gemspec~).version'`-release"
+
+hg push
 
 #

@@ -77,7 +77,7 @@ Source code and Windows-specific multi-versioned binary gems can be obtained fro
 
 ## Release history
 
-For user-visible changes refer to [change log](CHANGES.md).
+For user-visible changes refer to [change log](/CHANGES.md).
 
 ## Caveats
 
@@ -93,4 +93,4 @@ Zstd's external compression dictionaries capability is not (yet) implemented.
 
 Cheers,
 
-Oleg A. Khlybov <fougas@mail.ru>
+Oleg A. Khlybov <[fougas@mail.ru](mailto:fougas@mail.ru)>
