@@ -81,6 +81,11 @@ For user-visible changes refer to [change log](/CHANGES.md).
 
 ## Caveats
 
+This module is in testing phase so things beyond basic interface might not work as expected. 
+
+Documentation extracted from _zstdlib_ still contains traces of old zlib-related pieces.
+Just keep this in mind and substitute *zlib* with *zstdlib* upon browsing.
+
 Ruby documentation  extraction tools (such as RDoc) produce incorrect documentation for _zstdlib_
 which is technically valid but contains all identifies referring to _zlib_.
 This may change in future.
