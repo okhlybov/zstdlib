@@ -7,21 +7,26 @@ include FileUtils
 
 ZSTD_VERSION = '1.3.8'
 ZLIB_VERSION = '1.2.11'
-RB_VERSION = Gem.ruby_api_version.slice(/^\d+\.\d+/)
+RB_VERSION = RbConfig::CONFIG['RUBY_API_VERSION'] #.slice(/^\d+\.\d+/)
+ZMOD_VERSION = RB_VERSION >= '2.3' ? '2.6' : RB_VERSION # Review requirements with every new zlib module release!
 
 root = File.dirname(__FILE__)
 
-zmod = File.expand_path "ruby/zlib-#{RB_VERSION}", root
+zmod = File.expand_path "ruby/zlib-#{ZMOD_VERSION}", root
 zlib = File.expand_path "zlib-#{ZLIB_VERSION}", root
 zstd = File.expand_path "zstd-#{ZSTD_VERSION}/lib", root
 zlibwrapper = File.expand_path "zstd-#{ZSTD_VERSION}/zlibWrapper", root
 
 File.open('zstdlib.c', 'w') do |file|
+  file << %~\n#include <zstd.h>\n~
   file << File.read("#{zmod}/zlib.c").
-    gsub(/Init_zlib/, 'Init_zstdlib').
-    gsub(/rb_define_module.*/, 'rb_define_module("Zstdlib");').
+    gsub(%~Init_zlib~, %~Init_zstdlib~).
+    gsub(/"([Zz])lib"/, '"\1stdlib"').
+    gsub(/Zlib(\.|::)/, 'Zstdlib\1').
     gsub(%~<zlib.h>~, %~<zstd_zlibwrapper.h>~).
+    gsub(%~Z_DEFAULT_COMPRESSION~, %~ZSTD_CLEVEL_DEFAULT~).
     gsub(%~Z_BEST_COMPRESSION~, %~ZSTD_maxCLevel()~)
+  file << %~\n/* Ruby: #{RB_VERSION} Zlib: #{ZMOD_VERSION} */\n~
 end
 
 $srcs = ['zstdlib.c']

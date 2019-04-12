@@ -1,10 +1,10 @@
 Gem::Specification.new do |spec|
   spec.name          = 'zstdlib'
-  spec.version       = '0.1.0'
+  spec.version       = '0.1.1'
   spec.authors       = ['Oleg A. Khlybov']
   spec.email         = ['fougas@mail.ru']
-  spec.summary       = %q{Ruby interface for the Zstd (de)compression library}
-  spec.description   = %q{Zlib drop-in replacement implementing Zstd (de)compression algorithm}
+  spec.summary       = %q{Ruby interface for the Zstd data compression library}
+  spec.description   = %q{A Zlib drop-in replacement implementing Zstandard compression algorithm}
   spec.homepage      = 'https://bitbucket.org/fougas/zstdlib'
   spec.license       = 'BSD-3-Clause'
   spec.files         = (
@@ -19,4 +19,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rake-compiler'
   spec.add_development_dependency 'rake-compiler-dock', '~> 0.7.2'
+  spec.add_development_dependency 'test-unit'
 end

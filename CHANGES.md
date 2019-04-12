@@ -1,3 +1,13 @@
+# 0.1.1
+
+Pick up the most recent compatible source for _zstdlib_ Ruby extension module instead of Ruby version-specific one.
+
+Replaced (most) references to `Zlib` with `Zstdlib` within extractable documentation.
+
+Fixed a few missing methods on Ruby side.
+
+Documentation updates.
+
 # 0.1.0
 
 Initial release.
