@@ -3,11 +3,12 @@
 require 'mkmf'
 require 'fileutils'
 
+include RbConfig
 include FileUtils
 
 ZSTD_VERSION = '1.3.8'
 ZLIB_VERSION = '1.2.11'
-RB_VERSION = RbConfig::CONFIG['RUBY_API_VERSION'] #.slice(/^\d+\.\d+/)
+RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
 ZMOD_VERSION = RB_VERSION >= '2.3' ? '2.6' : RB_VERSION # Review requirements with every new zlib module release!
 
 root = File.dirname(__FILE__)
@@ -32,7 +33,7 @@ end
 $srcs = ['zstdlib.c']
 
 $CFLAGS += ' -fomit-frame-pointer -ffast-math -O3'
-$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -I#{zstd}/lib -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
+$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -I#{zstd} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
 $LDFLAGS += ' -s'
 $LOCAL_LIBS += ' libzlibwrapper.a libz.a libzstd.a'
 
