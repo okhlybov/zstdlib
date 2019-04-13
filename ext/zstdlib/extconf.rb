@@ -18,17 +18,7 @@ zlib = File.expand_path "zlib-#{ZLIB_VERSION}", root
 zstd = File.expand_path "zstd-#{ZSTD_VERSION}/lib", root
 zlibwrapper = File.expand_path "zstd-#{ZSTD_VERSION}/zlibWrapper", root
 
-File.open('zstdlib.c', 'w') do |file|
-  file << %~\n#include <zstd.h>\n~
-  file << File.read("#{zmod}/zlib.c").
-    gsub(%~Init_zlib~, %~Init_zstdlib~).
-    gsub(/"([Zz])lib"/, '"\1stdlib"').
-    gsub(/Zlib(\.|::)/, 'Zstdlib\1').
-    gsub(%~<zlib.h>~, %~<zstd_zlibwrapper.h>~).
-    gsub(%~Z_DEFAULT_COMPRESSION~, %~ZSTD_CLEVEL_DEFAULT~).
-    gsub(%~Z_BEST_COMPRESSION~, %~ZSTD_maxCLevel()~)
-  file << %~\n/* Ruby: #{RB_VERSION} Zlib: #{ZMOD_VERSION} */\n~
-end
+cp "#{zmod}/zstdlib.c", 'zstdlib.c'
 
 $srcs = ['zstdlib.c']
 
