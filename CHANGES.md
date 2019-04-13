@@ -1,3 +1,10 @@
+# 0.1.2
+
+Implemented `Zstdlib::ZSTD_VERSION` constant and `Zstdlib.zstd_version` module method for Zstd version retrieval.
+ 
+Documentation updates.
+
+
 # 0.1.1
 
 Pick up the most recent compatible source for _zstdlib_ Ruby extension module instead of target Ruby version.
@@ -7,6 +14,7 @@ Replaced (most) references to `Zlib` with `Zstdlib` within extractable documenta
 Fixed a few missing methods on Ruby side.
 
 Documentation updates.
+
 
 # 0.1.0
 

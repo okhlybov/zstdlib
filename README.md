@@ -1,4 +1,4 @@
-# [Zstdlib](https://bitbucket.org/fougas/zstdlib) - a Zstd (de)compression library binding for Ruby
+# [Zstdlib](https://bitbucket.org/fougas/zstdlib) - a Zstandard data compression library binding for Ruby
 
 _zstdlib_ is native Ruby extension for [Zstandard](https://facebook.github.io/zstd/) data compression library.
 
@@ -17,7 +17,7 @@ Streams produced by `Zstdlib::Deflate` can be decompressed with standard _zstd_ 
 ### Simple string compression
 ````ruby
 require 'zstdlib'
-data = Zstdlib.deflate('Hello, Zstd!')
+data = Zstdlib.deflate('Hello Zstd')
 ````
 
 ### Incremental data compression
@@ -46,6 +46,9 @@ _zstdlib_ covers the following parts of _zlib_:
 
 Note that _zstdlib_ currently omits Gzip file support with its `GzipFile`, `GzipReader` and `GzipWriter` classes
 and associated constants although this may be changed in future.
+
+There exist `Zstdlib::ZSTD_VERSION` constant and `Zstdlib.zstd_version` module method which can be used to obtain shipped Zstd library version.
+
 
 ### General guidelines
 
