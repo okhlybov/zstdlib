@@ -1,0 +1,6 @@
+--no-private
+--protected
+--readme README.md
+-m markdown
+-
+*.md
