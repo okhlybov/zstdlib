@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'zstdlib'
-  spec.version       = '0.1.2'
+  spec.version       = '0.2.0'
   spec.authors       = ['Oleg A. Khlybov']
   spec.email         = ['fougas@mail.ru']
   spec.summary       = %q{Ruby interface for the Zstd data compression library}
@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://bitbucket.org/fougas/zstdlib'
   spec.license       = 'BSD-3-Clause'
   spec.files         = (
-      ['Rakefile', 'Gemfile'] +
-      %w(*.md lib/*.rb test/*.rb).collect {|glob| Dir[glob]} +
-      %w(ruby/**/zstdlib.c zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
+    %w(Rakefile Gemfile .yardopts) +
+    %w(*.md lib/*.rb test/*.rb).collect {|glob| Dir[glob]} +
+    %w(ruby/**/zstdlib.c zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk).collect {|glob| Dir['ext/zstdlib/' << glob]}
   ).flatten
   spec.extensions    = 'ext/zstdlib/extconf.rb'
   spec.platform      = Gem::Platform::RUBY

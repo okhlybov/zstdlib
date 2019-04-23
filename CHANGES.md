@@ -1,3 +1,10 @@
+# 0.2.0
+
+Zstd version update to `1.4.0`
+
+Documentation updates.
+
+
 # 0.1.2
 
 Implemented `Zstdlib::ZSTD_VERSION` constant and `Zstdlib.zstd_version` module method for Zstd version retrieval.

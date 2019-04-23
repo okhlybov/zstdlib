@@ -6,7 +6,7 @@ require 'fileutils'
 include RbConfig
 include FileUtils
 
-ZSTD_VERSION = '1.3.8'
+ZSTD_VERSION = '1.4.0'
 ZLIB_VERSION = '1.2.11'
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
 ZMOD_VERSION = RB_VERSION >= '2.3' ? '2.6' : RB_VERSION # Review requirements with every new zlib module release!

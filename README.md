@@ -80,7 +80,7 @@ Source code and Windows-specific multi-versioned binary gems can be obtained fro
 
 ## Release history
 
-For user-visible changes refer to [change log](/CHANGES.md).
+For user-visible changes refer to [change log](file:CHANGES.md).
 
 ## Caveats
 
