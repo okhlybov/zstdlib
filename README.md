@@ -10,7 +10,8 @@ Unlike the other Zstd bindings available for Ruby, *Zstdlib* utilizes Zstd's nat
 
 This specifically means that `Zstdlib` module is and will be (mostly)  API-compatible with standard Ruby `Zlib` module and thus _zstdlib_ can be used as a drop-in replacement for _zlib_: just replace `Zlib` with `Zstdlib` throughout the source code and you're in!
 
-Streams produced by `Zstdlib::Deflate` can be decompressed with standard _zstd_ utility and hence can be written to _.zst_ or _.zstd_ files.
+Streams produced by `Zstdlib::Deflate` class can be decompressed with standard _zstd_ utility and hence can be written to _.zst_ or _.zstd_ files.
+Conversely, the `Zstdlib::Inflate` class can handle data from such files.
 
 ## Use cases
 
@@ -80,7 +81,7 @@ Source code and Windows-specific multi-versioned binary gems can be obtained fro
 
 ## Release history
 
-For user-visible changes refer to [change log](file:CHANGES.md).
+For user-visible changes refer to [change log](CHANGES.md).
 
 ## Caveats
 
@@ -89,7 +90,7 @@ This module is in testing phase so things beyond basic interface might not work 
 Documentation extracted from _zstdlib_ still contains traces of old zlib-related pieces.
 Just keep this in mind and substitute *zlib* with *zstdlib* upon browsing.
 
-Gzip support, although available in Zstd's Zlib compatibility layer, is currently disabled.
+Gzip _.gz_ file support, although available in Zstd's Zlib compatibility layer, is currently disabled.
 
 Zstd's external compression dictionaries capability is not (yet) implemented.
 
