@@ -75,7 +75,7 @@ The `BEST_SPEED` constant remains unchanged.
 
 ## Availability
 
-_zstdlib_ home page on [bitbucket.org](https://bitbucket.org/fougas/zstdlib).
+_zstdlib_ home page on [GitHub](https://github.com/okhlybov/zstdlib).
 
 Source code and Windows-specific multi-versioned binary gems can be obtained from [rubygems.org](https://rubygems.org/gems/zstdlib).
 
