@@ -25,5 +25,5 @@ end
 task :fat do
   require 'rake_compiler_dock'
   sh 'bundle package'
-  RakeCompilerDock.sh 'bundle --local && rake cross native gem'
+  RakeCompilerDock.sh 'gem install bundle && bundle --local && rake cross native gem'
 end
