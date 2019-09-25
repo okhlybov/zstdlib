@@ -1,4 +1,4 @@
-# [Zstdlib](https://bitbucket.org/fougas/zstdlib) - a Zstandard data compression library binding for Ruby
+# [Zstdlib](https://github.com/okhlybov/zstdlib) - a Zstandard data compression library binding for Ruby
 
 _zstdlib_ is native Ruby extension for [Zstandard](https://facebook.github.io/zstd/) data compression library.
 
