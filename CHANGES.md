@@ -1,3 +1,8 @@
+# 0.5.0
+
+Zstd version update to `1.4.4`
+
+
 # 0.4.0
 
 Zstd version update to `1.4.3`
