@@ -1,3 +1,10 @@
+# 0.6.0
+
+Added support for MRI Ruby version `2.7`
+
+Upgraded rake-compiler-dock to `1.0.0`
+
+
 # 0.5.0
 
 Zstd version update to `1.4.4`
