@@ -8,8 +8,13 @@ include FileUtils
 
 ZSTD_VERSION = '1.5.0'
 ZLIB_VERSION = '1.2.11'
+
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
 ZMOD_VERSION = RB_VERSION >= '2.3' ? '2.7' : RB_VERSION # Review requirements with every new zlib module release!
+
+ # For cross compiling
+ENV['CC'] = RbConfig::CONFIG['CC']
+ENV['LD'] = RbConfig::CONFIG['LD']
 
 root = File.dirname(__FILE__)
 
@@ -32,7 +37,7 @@ create_makefile('zstdlib')
 File.open('Makefile', 'a') do |file|
 file << %~
 
-export CC AR CFLAGS CPPFLAGS
+export CC LD AR CFLAGS CPPFLAGS
 
 $(DLLIB) : libz.a libzstd.a libzlibwrapper.a
 
