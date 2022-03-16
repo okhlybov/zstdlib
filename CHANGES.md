@@ -6,6 +6,7 @@ Added support for MRI Ruby versions `3.0-3.1`
 
 Upgraded rake-compiler-dock to `1.2.0`
 
+Implemented deployment of system-specific compiled gems for for x32/x64 Windows and x64/ARM64 MacOS platforms
 
 # 0.8.0
 

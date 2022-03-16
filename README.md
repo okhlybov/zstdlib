@@ -77,7 +77,13 @@ The `BEST_SPEED` constant remains unchanged.
 
 _zstdlib_ home page on [GitHub](https://github.com/okhlybov/zstdlib).
 
-Source code and Windows-specific multi-versioned binary gems can be obtained from [rubygems.org](https://rubygems.org/gems/zstdlib).
+Source code and system-specific compiled gems can be obtained from [rubygems.org](https://rubygems.org/gems/zstdlib).
+
+The system-specific gems are currently provided for x32/x64 Windows and x64/ARM64 MacOS platforms.
+
+Note that these gems are built with the [rake-compiler-dock](https://github.com/rake-compiler/rake-compiler-dock)
+infrastructure the minimum supported Ruby version is raised to 2.4.
+All other installations including Linux will use the source gem and hence require the compilation step with locally installed development tools.
 
 ## Release history
 
