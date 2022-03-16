@@ -2,7 +2,7 @@
 
 s/<zlib.h>/<zstd_zlibwrapper.h>/
 
-s/Init_zlib/Init_zstdlib/g
+s/Init_zlib/Init_zstdlib_c/g
 
 s/"\([Zz]\)lib"/"\1stdlib"/g
 

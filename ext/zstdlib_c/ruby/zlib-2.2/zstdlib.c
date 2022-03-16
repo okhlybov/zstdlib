@@ -4,7 +4,7 @@
  *
  *   Copyright (C) UENO Katsuhiro 2000-2003
  *
- * $Id: zlib.c 59532 2017-08-09 08:08:01Z usa $
+ * $Id: zlib.c 51075 2015-06-30 19:15:53Z nagachika $
  */
 
 #include <ruby.h>
@@ -293,7 +293,7 @@ static VALUE rb_gzreader_readlines(int, VALUE*, VALUE);
  *   - Zstdlib::GzipFile::NoFooter
  *
  */
-void Init_zstdlib(void);
+void Init_zstdlib_c(void);
 
 /*--------- Exceptions --------*/
 
@@ -401,7 +401,10 @@ checksum_long(uLong (*func)(uLong, const Bytef*, uInt), uLong sum, const Bytef *
 #endif
 
 static VALUE
-do_checksum(int argc, VALUE *argv, uLong (*func)(uLong, const Bytef*, uInt))
+do_checksum(argc, argv, func)
+    int argc;
+    VALUE *argv;
+    uLong (*func)(uLong, const Bytef*, uInt);
 {
     VALUE str, vsum;
     unsigned long sum;
@@ -1012,8 +1015,7 @@ zstream_run_func(void *ptr)
 	if (args->stream_output) {
 	    state = (int)(VALUE)rb_thread_call_with_gvl(zstream_expand_buffer_protect,
 							(void *)z);
-	}
-	else {
+	} else {
 	    state = zstream_expand_buffer_without_gvl(z);
 	}
 
@@ -1043,7 +1045,7 @@ zstream_run(struct zstream *z, Bytef *src, long len, int flush)
 {
     struct zstream_run_args args;
     int err;
-    VALUE guard = Qnil;
+    volatile VALUE guard = Qnil;
 
     args.z = z;
     args.flush = flush;
@@ -1100,7 +1102,7 @@ loop:
 
     if (z->stream.avail_in > 0) {
 	zstream_append_input(z, z->stream.next_in, z->stream.avail_in);
-	RB_GC_GUARD(guard); /* prevent tail call to make guard effective */
+        RB_GC_GUARD(guard) = Qnil; /* prevent tail call to make guard effective */
     }
 
     if (args.jump_state)
@@ -1995,8 +1997,7 @@ do_inflate(struct zstream *z, VALUE src)
  * stream's required dictionary.
  */
 static VALUE
-rb_inflate_add_dictionary(VALUE obj, VALUE dictionary)
-{
+rb_inflate_add_dictionary(VALUE obj, VALUE dictionary) {
     VALUE dictionaries = rb_ivar_get(obj, id_dictionaries);
     VALUE checksum = do_checksum(1, &dictionary, adler32);
 
@@ -2686,7 +2687,7 @@ gzfile_write(struct gzfile *gz, Bytef *str, long len)
 static long
 gzfile_read_more(struct gzfile *gz)
 {
-    VALUE str;
+    volatile VALUE str;
 
     while (!ZSTREAM_IS_FINISHED(&gz->z)) {
 	str = gzfile_read_raw(gz);
@@ -2699,7 +2700,6 @@ gzfile_read_more(struct gzfile *gz)
 	if (RSTRING_LEN(str) > 0) { /* prevent Z_BUF_ERROR */
 	    zstream_run(&gz->z, (Bytef*)RSTRING_PTR(str), RSTRING_LEN(str),
 			Z_SYNC_FLUSH);
-	    RB_GC_GUARD(str);
 	}
 	if (gz->z.buf_filled > 0) break;
     }
@@ -2806,7 +2806,6 @@ gzfile_readpartial(struct gzfile *gz, long len, VALUE outbuf)
     if (!NIL_P(outbuf)) {
         rb_str_resize(outbuf, RSTRING_LEN(dst));
         memcpy(RSTRING_PTR(outbuf), RSTRING_PTR(dst), RSTRING_LEN(dst));
-	RB_GC_GUARD(dst);
 	dst = outbuf;
     }
     OBJ_TAINT(dst);  /* for safe */
@@ -3111,7 +3110,9 @@ gzfile_s_open(int argc, VALUE *argv, VALUE klass, const char *mode)
 {
     VALUE io, filename;
 
-    rb_check_arity(argc, 1, UNLIMITED_ARGUMENTS);
+    if (argc < 1) {
+	rb_raise(rb_eArgError, "wrong number of arguments (0 for 1)");
+    }
     filename = argv[0];
     io = rb_file_open_str(filename, mode);
     argv[0] = io;
@@ -3310,13 +3311,9 @@ rb_gzfile_set_comment(VALUE obj, VALUE str)
 static VALUE
 rb_gzfile_close(VALUE obj)
 {
-    struct gzfile *gz;
+    struct gzfile *gz = get_gzfile(obj);
     VALUE io;
 
-    TypedData_Get_Struct(obj, struct gzfile, &gzfile_data_type, gz);
-    if (!ZSTREAM_IS_READY(&gz->z)) {
-        return Qnil;
-    }
     io = gz->io;
     gzfile_close(gz, 1);
     return io;
@@ -3421,14 +3418,7 @@ static VALUE
 rb_gzfile_total_out(VALUE obj)
 {
     struct gzfile *gz = get_gzfile(obj);
-    uLong total_out = gz->z.stream.total_out;
-    long buf_filled = gz->z.buf_filled;
-
-    if (total_out >= (uLong)buf_filled) {
-        return rb_uint2inum(total_out - buf_filled);
-    } else {
-        return LONG2FIX(-(buf_filled - (long)total_out));
-    }
+    return rb_uint2inum(gz->z.stream.total_out - gz->z.buf_filled);
 }
 
 /*
@@ -3604,7 +3594,6 @@ rb_gzwriter_write(VALUE obj, VALUE str)
 	str = rb_str_conv_enc(str, rb_enc_get(str), gz->enc2);
     }
     gzfile_write(gz, (Bytef*)RSTRING_PTR(str), RSTRING_LEN(str));
-    RB_GC_GUARD(str);
     return INT2FIX(RSTRING_LEN(str));
 }
 
@@ -3651,7 +3640,7 @@ rb_gzwriter_putc(VALUE obj, VALUE ch)
  * Document-class: Zstdlib::GzipReader
  *
  * Zstdlib::GzipReader is the class for reading a gzipped file.  GzipReader should
- * be used as an IO, or -IO-like, object.
+ * be used an IO, or -IO-like, object.
  *
  *   Zstdlib::GzipReader.open('hoge.gz') {|gz|
  *     print gz.read
@@ -3978,7 +3967,6 @@ rb_gzreader_ungetc(VALUE obj, VALUE s)
 	s = rb_str_conv_enc(s, rb_enc_get(s), gz->enc2);
     }
     gzfile_ungets(gz, (const Bytef*)RSTRING_PTR(s), RSTRING_LEN(s));
-    RB_GC_GUARD(s);
     return Qnil;
 }
 
@@ -4058,7 +4046,7 @@ static VALUE
 gzreader_gets(int argc, VALUE *argv, VALUE obj)
 {
     struct gzfile *gz = get_gzfile(obj);
-    VALUE rs;
+    volatile VALUE rs;
     VALUE dst;
     const char *rsptr;
     char *p, *res;
@@ -4121,8 +4109,7 @@ gzreader_gets(int argc, VALUE *argv, VALUE obj)
 	rsptr = "\n\n";
 	rslen = 2;
 	rspara = 1;
-    }
-    else {
+    } else {
 	rsptr = RSTRING_PTR(rs);
 	rslen = RSTRING_LEN(rs);
 	rspara = 0;
@@ -4159,8 +4146,7 @@ gzreader_gets(int argc, VALUE *argv, VALUE obj)
 	    n = filled;
 	    if (limit > 0 && filled >= limit) break;
 	    n++;
-	}
-	else {
+	} else {
 	    n += (long)(res - p);
 	    p = res;
 	    if (rslen == 1 || memcmp(p, rsptr, rslen) == 0) break;
@@ -4177,7 +4163,6 @@ gzreader_gets(int argc, VALUE *argv, VALUE obj)
     if (rspara) {
 	gzreader_skip_linebreaks(gz);
     }
-    RB_GC_GUARD(rs);
 
     return gzfile_newstr(gz, dst);
 }
@@ -4262,21 +4247,10 @@ rb_gzreader_readlines(int argc, VALUE *argv, VALUE obj)
     return dst;
 }
 
-/*
- * Document-method: Zstdlib::GzipReader#external_encoding
- *
- * See Zstdlib::GzipReader documentation for a description.
- */
-static VALUE
-rb_gzreader_external_encoding(VALUE self)
-{
-    return rb_enc_from_encoding(get_gzfile(self)->enc);
-}
-
 #endif /* GZIP_SUPPORT */
 
 void
-Init_zstdlib(void)
+Init_zstdlib_c(void)
 {
     VALUE mZlib, cZStream, cDeflate, cInflate;
 #if GZIP_SUPPORT
@@ -4383,7 +4357,7 @@ Init_zstdlib(void)
      * pre-compressed data to a deflate stream.
      */
     rb_define_const(mZlib, "NO_COMPRESSION", INT2FIX(Z_NO_COMPRESSION));
-    /* Fastest compression level, but with the lowest space savings. */
+    /* Fastest compression level, but with with lowest space savings. */
     rb_define_const(mZlib, "BEST_SPEED", INT2FIX(Z_BEST_SPEED));
     /* Slowest compression level, but with the best space savings. */
     rb_define_const(mZlib, "BEST_COMPRESSION", INT2FIX(ZSTD_maxCLevel()));
@@ -4543,7 +4517,6 @@ Init_zstdlib(void)
     rb_define_method(cGzipReader, "each_line", rb_gzreader_each, -1);
     rb_define_method(cGzipReader, "lines", rb_gzreader_lines, -1);
     rb_define_method(cGzipReader, "readlines", rb_gzreader_readlines, -1);
-    rb_define_method(cGzipReader, "external_encoding", rb_gzreader_external_encoding, 0);
 
     /* The OS code of current host */
     rb_define_const(mZlib, "OS_CODE", INT2FIX(OS_CODE));

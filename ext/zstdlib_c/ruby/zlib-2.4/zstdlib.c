@@ -292,7 +292,7 @@ static VALUE rb_gzreader_readlines(int, VALUE*, VALUE);
  *   - Zstdlib::GzipFile::NoFooter
  *
  */
-void Init_zstdlib(void);
+void Init_zstdlib_c(void);
 
 /*--------- Exceptions --------*/
 
@@ -4428,7 +4428,7 @@ zlib_gunzip_run(VALUE arg)
 #endif /* GZIP_SUPPORT */
 
 void
-Init_zstdlib(void)
+Init_zstdlib_c(void)
 {
     VALUE mZlib, cZStream, cDeflate, cInflate;
 #if GZIP_SUPPORT

@@ -9,7 +9,7 @@ spec = Gem::Specification.load('zstdlib.gemspec')
 platforms = %w[x86-mingw32 x64-mingw-ucrt x64-mingw32 x86_64-darwin arm64-darwin]
 
 
-Rake::ExtensionTask.new('zstdlib', spec) do |t|
+Rake::ExtensionTask.new('zstdlib_c', spec) do |t|
   t.cross_compile = true
   t.cross_platform = platforms
   t.cross_config_options << '--enable-cross-build'

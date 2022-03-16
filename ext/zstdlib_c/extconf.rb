@@ -32,7 +32,7 @@ $CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -I#{zstd} -DZWRAP_USE_ZSTD=1 -DGZIP_SU
 $LDFLAGS += ' -s'
 $LOCAL_LIBS += ' libzlibwrapper.a libz.a libzstd.a'
 
-create_makefile('zstdlib')
+create_makefile('zstdlib_c')
 
 File.open('Makefile', 'a') do |file|
 file << %~
