@@ -1,4 +1,5 @@
 require 'rake/testtask'
+require 'bundler/gem_tasks'
 require 'rake/extensiontask'
 require 'rake_compiler_dock'
 
@@ -50,6 +51,9 @@ Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.test_files = FileList['test/*_test.rb']
 end
+
+
+Gem::PackageTask.new(spec)
 
 
 # Build system explained: https://github.com/flavorjones/ruby-c-extensions-explained/tree/main/precompiled

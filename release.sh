@@ -4,7 +4,9 @@ set -e
 
 git diff --quiet || { echo "Uncommitted changes found. Commit things first!"; exit; }
 
-bundle exec rake clobber build fat
+rm -rf pkg
+
+bundle exec rake clobber build gem:all
 
 for gem in pkg/*.gem; do
   gem push $gem

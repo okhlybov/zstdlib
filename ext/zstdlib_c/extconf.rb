@@ -10,7 +10,7 @@ ZSTD_VERSION = '1.5.2'
 ZLIB_VERSION = '1.2.11'
 
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
-ZMOD_VERSION = RB_VERSION >= '2.3' ? '2.7' : RB_VERSION # Review requirements with every new zlib module release!
+ZMOD_VERSION = RB_VERSION >= '2.3' ? '3.1' : RB_VERSION # Review requirements with every new zlib module release!
 
  # For cross compiling
 ENV['CC'] = RbConfig::CONFIG['CC']
@@ -28,7 +28,7 @@ cp "#{zmod}/zstdlib.c", 'zstdlib.c'
 $srcs = ['zstdlib.c']
 
 $CFLAGS += ' -fomit-frame-pointer -ffast-math -O3'
-$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -I#{zstd} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=0"
+$CPPFLAGS += " -I#{zlib} -I#{zlibwrapper} -I#{zstd} -DZWRAP_USE_ZSTD=1 -DGZIP_SUPPORT=1"
 $LDFLAGS += ' -s'
 $LOCAL_LIBS += ' libzlibwrapper.a libz.a libzstd.a'
 

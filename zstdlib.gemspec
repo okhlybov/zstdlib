@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.files         = (
     %w[Rakefile Gemfile .yardopts] +
     %w[*.md lib/*.rb test/*.rb].collect { |glob| Dir[glob]}  +
-    %w[ruby/**/zstdlib.c zstd*/**/*.[ch] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk].collect { |glob| Dir['ext/zstdlib_c/' << glob] }
+    %w[ruby/**/zstdlib.c zstd*/**/*.[chS] zlib*/**/*.[ch] zlib*/**/extconf.rb *.mk].collect { |glob| Dir['ext/zstdlib_c/' << glob] }
   ).flatten
   spec.extensions    = 'ext/zstdlib_c/extconf.rb'
   spec.platform      = Gem::Platform::RUBY

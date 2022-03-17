@@ -1,4 +1,4 @@
-VPATH := $(SRCDIR)
+VPATH := $(SRCDIR) $(SRCDIR)/../../zlibwrapper
 
 SRCS := $(foreach dir,$(VPATH),$(wildcard $(dir)/*.c))
 OBJS := $(patsubst %.c,%.o,$(foreach file,$(SRCS),$(notdir $(file))))
