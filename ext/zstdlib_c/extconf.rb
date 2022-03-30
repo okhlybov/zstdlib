@@ -7,7 +7,7 @@ include RbConfig
 include FileUtils
 
 ZSTD_VERSION = '1.5.2'
-ZLIB_VERSION = '1.2.11'
+ZLIB_VERSION = '1.2.12'
 
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
 ZMOD_VERSION = RB_VERSION >= '2.3' ? '3.1' : RB_VERSION # Review requirements with every new zlib module release!
