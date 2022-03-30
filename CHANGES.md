@@ -1,3 +1,8 @@
+# 0.10.0
+
+Updated Zlib to `1.2.12`
+
+
 # 0.9.0
 
 Updated Zstd to `1.5.2`
