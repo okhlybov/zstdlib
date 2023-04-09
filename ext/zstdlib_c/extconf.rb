@@ -6,11 +6,11 @@ require 'fileutils'
 include RbConfig
 include FileUtils
 
-ZSTD_VERSION = '1.5.2'
+ZSTD_VERSION = '1.5.5'
 ZLIB_VERSION = '1.2.12'
 
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
-ZMOD_VERSION = RB_VERSION >= '2.3' ? '3.1' : RB_VERSION # Review requirements with every new zlib module release!
+ZMOD_VERSION = RB_VERSION >= '2.3' ? '3.2' : RB_VERSION # Review requirements with every new zlib module release!
 
  # For cross compiling
 ENV['CC'] = RbConfig::CONFIG['CC']

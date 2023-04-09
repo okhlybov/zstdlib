@@ -1,3 +1,10 @@
+# 0.11.0
+
+Updated Zstd to `1.5.5`
+
+Added support for MRI Ruby version `3.2`
+
+
 # 0.10.0
 
 Updated Zlib to `1.2.12`
@@ -12,6 +19,7 @@ Added support for MRI Ruby versions `3.0-3.1`
 Upgraded rake-compiler-dock to `1.2.0`
 
 Implemented deployment of system-specific compiled gems for for x32/x64 Windows and x64/ARM64 MacOS platforms
+
 
 # 0.8.0
 
