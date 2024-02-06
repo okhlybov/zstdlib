@@ -7,12 +7,17 @@ include RbConfig
 include FileUtils
 
 ZSTD_VERSION = '1.5.5'
-ZLIB_VERSION = '1.2.12'
+ZLIB_VERSION = '1.3.1'
 
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']
-ZMOD_VERSION = RB_VERSION >= '2.3' ? '3.2' : RB_VERSION # Review requirements with every new zlib module release!
 
- # For cross compiling
+# Review requirements with every new zlib module release!
+ZMOD_VERSION =  if    RB_VERSION >= '2.5' then '3.3'
+                elsif RB_VERSION >= '2.3' then '3.2'
+                else  RB_VERSION
+                end
+
+# For cross compiling
 ENV['CC'] = RbConfig::CONFIG['CC']
 ENV['LD'] = RbConfig::CONFIG['LD']
 
