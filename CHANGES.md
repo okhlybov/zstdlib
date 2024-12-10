@@ -1,3 +1,10 @@
+# 0.13.0
+
+Updated Zstd to `1.5.6`
+
+Upgraded rake-compiler-dock to `1.5.0`
+
+
 # 0.12.0
 
 Updated Zlib to `1.3.1`

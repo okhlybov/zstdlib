@@ -7,7 +7,7 @@ require 'rake_compiler_dock'
 spec = Gem::Specification.load('zstdlib.gemspec')
 
 
-platforms = %w[x86-mingw32 x64-mingw-ucrt x64-mingw32 x86_64-darwin arm64-darwin]
+platforms = %w[x86-mingw32 x64-mingw-ucrt x64-mingw32 x86-linux x86_64-linux x86_64-darwin arm64-darwin]
 
 
 Rake::ExtensionTask.new('zstdlib_c', spec) do |t|

@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'zstdlib'
-  spec.version       = '0.12.0'
+  spec.version       = '0.13.0'
   spec.authors       = ['Oleg A. Khlybov']
   spec.email         = ['fougas@mail.ru']
   spec.summary       = %q{Ruby interface for the Zstandard data compression library}
@@ -18,6 +18,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rake-compiler'
-  spec.add_development_dependency 'rake-compiler-dock', '~> 1.4.0'
+  spec.add_development_dependency 'rake-compiler-dock', '~> 1.5.0'
   spec.add_development_dependency 'test-unit'
 end
