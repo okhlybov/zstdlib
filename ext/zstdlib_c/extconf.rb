@@ -6,7 +6,7 @@ require 'fileutils'
 include RbConfig
 include FileUtils
 
-ZSTD_VERSION = '1.5.6'
+ZSTD_VERSION = '1.5.7'
 ZLIB_VERSION = '1.3.1'
 
 RB_VERSION = CONFIG['MAJOR']+'.'+CONFIG['MINOR']

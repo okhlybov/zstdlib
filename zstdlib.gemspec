@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'zstdlib'
-  spec.version       = '0.14.0'
+  spec.version       = '0.15.0'
   spec.authors       = ['Oleg A. Khlybov']
   spec.email         = ['fougas@mail.ru']
   spec.summary       = %q{Ruby interface for the Zstandard data compression library}

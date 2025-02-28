@@ -1,3 +1,8 @@
+# 0.15.0
+
+Updated Zstd to `1.5.7`
+
+
 # 0.14.0
 
 Added support for MRI Ruby version `3.4`
